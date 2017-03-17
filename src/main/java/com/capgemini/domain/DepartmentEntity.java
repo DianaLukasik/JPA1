@@ -1,16 +1,13 @@
 package com.capgemini.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
 
 import org.dom4j.tree.AbstractEntity;
 
@@ -21,21 +18,15 @@ public class DepartmentEntity extends AbstractEntity {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	// @NotNull (nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="id_department")
+	@Column(name = "id_department")
 	private int idDepartment;
+	@NotNull
 	@Column(name = "name")
 	private String nameDepartment;
 
-
-	// czy tu powinna byc i jaka adnotacja @Embeddable
+	@Embedded
 	private Contact contact;
-
-	
-//	@Version
-//	@Column(name = "version", columnDefinition = "int default 0")
-//	private int version = 0;
 
 	public int getIdDepartment() {
 		return idDepartment;
@@ -65,12 +56,5 @@ public class DepartmentEntity extends AbstractEntity {
 		this.contact = contact;
 	}
 
-//	public int getVersion() {
-//		return version;
-//	}
-//
-//	public void setVersion(int version) {
-//		this.version = version;
-//	}
 
 }

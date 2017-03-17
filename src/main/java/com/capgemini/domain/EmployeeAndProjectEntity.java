@@ -12,14 +12,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "employee_and_project")
-public class EmployeeAndProjectEntity {
+public class EmployeeAndProjectEntity extends AbstractEntity{
 
 	@Id
-	// @NotNull (nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int idProjectEmployee;
 
@@ -27,12 +26,13 @@ public class EmployeeAndProjectEntity {
 	@JoinColumn (name="id_employee")
 	private EmployeeEntity employeeEntity;
 
+	@NotNull
 	@ManyToOne
-
+	@JoinColumn (name="id_project")
 	private ProjectEntity projectEntity;
 
 	@ManyToOne
-
+	@JoinColumn (name="id_job_position")
 	private JobPositionEntity jobPositionEntity;
 
 	@Column(name = "date_from")
@@ -43,9 +43,10 @@ public class EmployeeAndProjectEntity {
 
 	@Column
 	private double salary;
-	@Version
-	@Column(name = "version", columnDefinition = "int default 0")
-	private int version = 0;
+	
+//	@Version
+//	@Column(name = "version", columnDefinition = "int default 0")
+//	private int version = 0;
 
 
 
@@ -106,11 +107,11 @@ public class EmployeeAndProjectEntity {
 	public void setSalary(double salary) {
 		this.salary = salary;
 	}
-	public int getVersion() {
-		return version;
-	}
-
-	public void setVersion(int version) {
-		this.version = version;
-	}
+//	public int getVersion() {
+//		return version;
+//	}
+//
+//	public void setVersion(int version) {
+//		this.version = version;
+//	}
 }

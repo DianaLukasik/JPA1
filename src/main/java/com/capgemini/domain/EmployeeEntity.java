@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.dom4j.tree.AbstractEntity;
@@ -29,11 +30,13 @@ public class EmployeeEntity extends AbstractEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id_employee")
 	private Long idEmployee;
-	@Column(nullable = false, length = 25)
+	@NotNull
+	@Column
 	private String name;
-	@Column(nullable = false, length = 35)
+	@NotNull
+	@Column
 	private String surname;
-	@Column(length = 11)
+	@Column
 	@Size(max=11)
 	private int pesel;
 	@Column(name = "birth_date")

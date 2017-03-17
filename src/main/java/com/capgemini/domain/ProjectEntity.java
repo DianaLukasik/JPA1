@@ -17,10 +17,6 @@ import org.dom4j.tree.AbstractEntity;
 @Table(name = "projects")
 public class ProjectEntity extends AbstractEntity {
 
-	// czy potrzebny?
-	public ProjectEntity() {
-		super();
-	}
 
 	private static final long serialVersionUID = 1L;
 
@@ -31,15 +27,15 @@ public class ProjectEntity extends AbstractEntity {
 	@Column(name = "project_name", nullable = false)
 	private int projectName;
 	@OneToOne
-	@JoinColumn (name="id_employee")
-//	@Column (name="menager_id")
+	@JoinColumn (name="menager_id", referencedColumnName="id_employee")
 	private EmployeeEntity employeeEntity;
 	@ManyToOne
-
+	@JoinColumn (name="id_project_type")
 	private ProjectTypeEntity projectTypeEntity;
-	@Version
-	@Column(name = "version", columnDefinition = "int default 0")
-	private int version = 0;
+	
+//	@Version
+//	@Column(name = "version", columnDefinition = "int default 0")
+//	private int version = 0;
 
 	public int getIdProject() {
 		return idProject;
@@ -73,11 +69,11 @@ public class ProjectEntity extends AbstractEntity {
 		this.projectTypeEntity = projectTypeEntity;
 	}
 
-	public int getVersion() {
-		return version;
-	}
-
-	public void setVersion(int version) {
-		this.version = version;
-	}
+//	public int getVersion() {
+//		return version;
+//	}
+//
+//	public void setVersion(int version) {
+//		this.version = version;
+//	}
 }

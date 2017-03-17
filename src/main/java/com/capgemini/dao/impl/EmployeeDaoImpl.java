@@ -21,7 +21,7 @@ public class EmployeeDaoImpl extends AbstractDao<EmployeeEntity, Integer> implem
 
 	@Override
 	public List<EmployeeEntity> findByName(String name) {
-		TypedQuery<EmployeeEntity> query = entityManager.createQuery("select employee from EmployeeEntity employee where upper(lastName) like concat(upper(:lastName),'%')", EmployeeEntity.class);
+		TypedQuery<EmployeeEntity> query = entityManager.createQuery("select employee from EmployeeEntity employee where upper(name) like concat(upper(:name),'%')", EmployeeEntity.class);
 		query.setParameter("name", name);
 		return query.getResultList();
 	}
@@ -29,8 +29,9 @@ public class EmployeeDaoImpl extends AbstractDao<EmployeeEntity, Integer> implem
 	
 	@Override
 	public List<EmployeeEntity> findBySurname(String surname) {
-		// TODO Auto-generated method stub
-		return null;
+		TypedQuery<EmployeeEntity> query = entityManager.createQuery("select employee from EmployeeEntity employee where upper(surname) like concat(upper(:surname),'%')", EmployeeEntity.class);
+		query.setParameter("surname", surname);
+		return query.getResultList();
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
 
 import org.dom4j.tree.AbstractEntity;
 
@@ -14,20 +15,14 @@ import org.dom4j.tree.AbstractEntity;
 @Table(name = "project_type")
 public class ProjectTypeEntity extends AbstractEntity {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	@Id 
-	// @NotNull
+	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="id_project_type")
+	@Column(name = "id_project_type")
 	private int idProjectType;
+	@NotNull
 	@Column(nullable = false, length = 35)
 	private String name;
-	@Version
-	@Column(name = "version", columnDefinition = "int default 0")
-	private int version = 0;
 
 	public int getIdProjectType() {
 		return idProjectType;
@@ -54,15 +49,4 @@ public class ProjectTypeEntity extends AbstractEntity {
 		this.name = name;
 	}
 
-	public int getVersion() {
-		return version;
-	}
-
-	public void setVersion(int version) {
-		this.version = version;
-	}
-
-
-
-	
 }
