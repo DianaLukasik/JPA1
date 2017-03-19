@@ -1,6 +1,6 @@
 package com.capgemini.domain;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -26,6 +26,13 @@ public class EmployeeEntity extends AbstractEntity {
 
 	private static final long serialVersionUID = 1L;
 
+	
+	
+	
+	public EmployeeEntity() {
+		super();
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id_employee")
@@ -40,7 +47,7 @@ public class EmployeeEntity extends AbstractEntity {
 	@Size(max=11)
 	private int pesel;
 	@Column(name = "birth_date")
-	private Date birthDate;
+	private LocalDate birthDate;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn (name="id_department")
 	private DepartmentEntity departmentEntity;
@@ -85,11 +92,11 @@ public class EmployeeEntity extends AbstractEntity {
 		this.pesel = pesel;
 	}
 
-	public Date getBirthDate() {
+	public LocalDate getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(Date birthDate) {
+	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.capgemini.dao.EmployeeDao;
 import com.capgemini.domain.BookEntity;
+import com.capgemini.domain.EmployeeAndProjectEntity;
 import com.capgemini.domain.EmployeeEntity;
 
 @Repository
@@ -15,9 +16,12 @@ public class EmployeeDaoImpl extends AbstractDao<EmployeeEntity, Integer> implem
 
 	@Override
 	public List<EmployeeEntity> findByNameAndSurname(String name, String surname) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		TypedQuery<EmployeeEntity> query = entityManager.createQuery(
+				"SELECT employee FROM EmployeeEntity employee WHERE UPPER(name) LIKE CONCAT(UPPER(:name), '%') AND UPPER(surname) LIKE CONCAT(UPPER(:surname), '%')",
+				EmployeeEntity.class);
+		query.setParameter("name", name).setParameter("surname", surname);
+		return query.getResultList();
+	} 
 
 	@Override
 	public List<EmployeeEntity> findByName(String name) {
@@ -36,8 +40,26 @@ public class EmployeeDaoImpl extends AbstractDao<EmployeeEntity, Integer> implem
 
 	@Override
 	public List<EmployeeEntity> findByDepartmentId(int idDepartment) {
-		// TODO Auto-generated method stub
+		TypedQuery<EmployeeEntity> query = entityManager.createQuery("select employee from EmployeeEntity employee where employee.employeeEntity.idDepartment = :idDepertment", EmployeeEntity.class);
+		query.setParameter("id_department", idDepartment);
+		return query.getResultList();
+	}
+	
+	
+	
+	
+//////////////////////	
+	
+	public List<EmployeeEntity> findActiveEmployeeByProjectId(int idProject) {
+		TypedQuery<EmployeeEntity> query = entityManager.createQuery("select employee from EmployeeEntity e  JOIN e.idEmployee ep where (ep.end_date is null and ep.idProject=:idProject)", EmployeeEntity.class);
+		query.setParameter("idProject", idProject);
+		return query.getResultList();
+	}
+	
+
+	public List<EmployeeAndProjectEntity> findEmployeeWorkingLongerThan(int numberOfMonths) {
+		TypedQuery<EmployeeAndProjectEntity> query = entityManager.createQuery("select  ",EmployeeAndProjectEntity.class);
+			query.setParameter("numberOfMonths", numberOfMonths);
 		return null;
 	}
-
 }

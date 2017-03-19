@@ -2,6 +2,7 @@ package com.capgemini.domain;
 
 
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -36,10 +37,10 @@ public class EmployeeAndProjectEntity extends AbstractEntity{
 	private JobPositionEntity jobPositionEntity;
 
 	@Column(name = "date_from")
-	private Date dateFrom;
+	private LocalDate dateFrom;
 
 	@Column(name = "date_to")
-	private Date dateTo;
+	private LocalDate dateTo;
 
 	@Column
 	private double salary;
@@ -84,19 +85,19 @@ public class EmployeeAndProjectEntity extends AbstractEntity{
 		this.jobPositionEntity = jobPositionEntity;
 	}
 
-	public Date getDateFrom() {
+	public LocalDate getDateFrom() {
 		return dateFrom;
 	}
 
-	public void setDateFrom(Date dateFrom) {
+	public void setDateFrom(LocalDate dateFrom) {
 		this.dateFrom = dateFrom;
 	}
 
-	public Date getDateTo() {
+	public LocalDate getDateTo() {
 		return dateTo;
 	}
 
-	public void setDateTo(Date dateTo) {
+	public void setDateTo(LocalDate dateTo) {
 		this.dateTo = dateTo;
 	}
 
