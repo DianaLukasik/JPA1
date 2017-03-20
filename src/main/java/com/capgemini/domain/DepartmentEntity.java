@@ -1,6 +1,8 @@
 package com.capgemini.domain;
 
-import java.sql.Date;
+
+
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -12,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
 import org.dom4j.tree.AbstractEntity;
@@ -19,9 +22,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-@EntityListeners(TimeListener.class)
 @Table(name = "department")
-public class DepartmentEntity extends AbstractEntity {
+public class DepartmentEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -35,15 +37,19 @@ public class DepartmentEntity extends AbstractEntity {
 	@Embedded
 	private Contact contact;
 	
-//	@CreationTimestamp
-//	@Temporal(TemporalType.TIMESTAMP)
-//	@Column(name = "create_date")
-//	private Date createDate;
-//
-//	@UpdateTimestamp
-//	@Temporal(TemporalType.TIMESTAMP)
-//	@Column(name = "modify_date")
-//	private Date modifyDate;
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "create_date")
+	private Date createDate;
+
+	@UpdateTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "modify_date")
+	private Date modifyDate;
+	
+	@Version
+	@Column(name = "version", columnDefinition = "int default 0")
+	private int version = 0;
 
 	public int getIdDepartment() {
 		return idDepartment;

@@ -1,5 +1,7 @@
 package com.capgemini.domain;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -10,17 +12,19 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import org.dom4j.tree.AbstractEntity;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 //@EntityListeners(TimeListener.class)
 @Table(name = "projects")
-public class ProjectEntity extends AbstractEntity {
+public class ProjectEntity {
 
-
-	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,10 +38,18 @@ public class ProjectEntity extends AbstractEntity {
 	@ManyToOne
 	@JoinColumn (name="id_project_type")
 	private ProjectTypeEntity projectTypeEntity;
-	
-//	@Version
-//	@Column(name = "version", columnDefinition = "int default 0")
-//	private int version = 0;
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "create_date")
+	private Date createDate;
+
+	@UpdateTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "modify_date")
+	private Date modifyDate;
+	@Version
+	@Column(name = "version", columnDefinition = "int default 0")
+	private int version = 0;
 
 	public int getIdProject() {
 		return idProject;

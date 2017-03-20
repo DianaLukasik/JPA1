@@ -1,7 +1,9 @@
 package com.capgemini.domain;
 
-import java.sql.Date;
 
+
+import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -14,15 +16,18 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
-import org.dom4j.tree.AbstractEntity;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 //@EntityListeners(TimeListener.class)
 @Table(name = "employee")
-public class EmployeeEntity extends AbstractEntity {
+public class EmployeeEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -47,18 +52,25 @@ public class EmployeeEntity extends AbstractEntity {
 //	@Size(max=11)
 	private String pesel;
 	@Column(name = "birth_date")
-	private Date birthDate;
+	private LocalDate birthDate;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn (name="id_department")
 	private DepartmentEntity departmentEntity;
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "create_date")
+	private Date createDate;
 
+	@UpdateTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "modify_date")
+	private Date modifyDate;
 	@Embedded
 	private Contact contact;
 
-	// @Version
-	// @Column(name = "version", columnDefinition = "int default 0")
-	// private int version = 0;
-	//
+	@Version
+	@Column(name = "version", columnDefinition = "int default 0")
+	private int version = 0;
 
 	public int getIdEmployee() {
 		return idEmployee;
@@ -92,11 +104,11 @@ public class EmployeeEntity extends AbstractEntity {
 		this.pesel = pesel;
 	}
 
-	public Date getBirthDate() {
+	public LocalDate getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(Date birthDate) {
+	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 

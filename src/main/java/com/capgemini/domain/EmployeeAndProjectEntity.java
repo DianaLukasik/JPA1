@@ -1,7 +1,9 @@
 package com.capgemini.domain;
 
 
-import java.sql.Date;
+
+
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,13 +14,18 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 //@EntityListeners(TimeListener.class)
 @Table(name = "employee_and_project")
-public class EmployeeAndProjectEntity extends AbstractEntity{
+public class EmployeeAndProjectEntity{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -46,9 +53,19 @@ public class EmployeeAndProjectEntity extends AbstractEntity{
 	@Column
 	private double salary;
 	
-//	@Version
-//	@Column(name = "version", columnDefinition = "int default 0")
-//	private int version = 0;
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "create_date")
+	private Date createDate;
+
+	@UpdateTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "modify_date")
+	private Date modifyDate;
+	
+	@Version
+	@Column(name = "version", columnDefinition = "int default 0")
+	private int version = 0;
 
 
 
@@ -109,11 +126,11 @@ public class EmployeeAndProjectEntity extends AbstractEntity{
 	public void setSalary(double salary) {
 		this.salary = salary;
 	}
-//	public int getVersion() {
-//		return version;
-//	}
-//
-//	public void setVersion(int version) {
-//		this.version = version;
-//	}
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
+	}
 }
