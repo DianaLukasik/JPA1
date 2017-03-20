@@ -1,26 +1,26 @@
 package com.capgemini.domain;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.sql.Date;
+
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.dom4j.tree.AbstractEntity;
 
 @Entity
+//@EntityListeners(TimeListener.class)
 @Table(name = "employee")
 public class EmployeeEntity extends AbstractEntity {
 
@@ -36,7 +36,7 @@ public class EmployeeEntity extends AbstractEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id_employee")
-	private Long idEmployee;
+	private int idEmployee;
 	@NotNull
 	@Column
 	private String name;
@@ -44,10 +44,10 @@ public class EmployeeEntity extends AbstractEntity {
 	@Column
 	private String surname;
 	@Column
-	@Size(max=11)
-	private int pesel;
+//	@Size(max=11)
+	private String pesel;
 	@Column(name = "birth_date")
-	private LocalDate birthDate;
+	private Date birthDate;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn (name="id_department")
 	private DepartmentEntity departmentEntity;
@@ -60,11 +60,11 @@ public class EmployeeEntity extends AbstractEntity {
 	// private int version = 0;
 	//
 
-	public Long getIdEmployee() {
+	public int getIdEmployee() {
 		return idEmployee;
 	}
 
-	public void setIdEmployee(Long idEmployee) {
+	public void setIdEmployee(int idEmployee) {
 		this.idEmployee = idEmployee;
 	}
 
@@ -84,19 +84,19 @@ public class EmployeeEntity extends AbstractEntity {
 		this.surname = surname;
 	}
 
-	public int getPesel() {
+	public String getPesel() {
 		return pesel;
 	}
 
-	public void setPesel(int pesel) {
+	public void setPesel(String pesel) {
 		this.pesel = pesel;
 	}
 
-	public LocalDate getBirthDate() {
+	public Date getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(LocalDate birthDate) {
+	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
 

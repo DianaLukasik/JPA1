@@ -1,5 +1,6 @@
 package com.capgemini.service.impl;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -35,10 +36,11 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public void deleteProject(int idProject) throws InvalidInputException {
 		List<ProjectEntity> projectList = projectDao.findProjectById(idProject);
-		if (projectList != null) {
+		if (projectList == null) {
 			throw new InvalidInputException();
-		}
+		} else {
 		projectDao.delete(projectDao.findOne(idProject));
+	}
 	}
 
 	@Override
@@ -47,10 +49,11 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public EmployeeAndProjectEntity addEmployeeToProject(EmployeeAndProjectEntity employeeAndProject, int idEmployee, LocalDate dateFrom,
+	public EmployeeAndProjectEntity addEmployeeToProject(ProjectEntity projectEntity, int idEmployee, Date dateFrom,
 			JobPositionEntity jobPositionEntity, double salary) {
 		EmployeeAndProjectEntity emplAndProjEntity = new EmployeeAndProjectEntity();
 		emplAndProjEntity.setIdProjectEmployee(idEmployee);
+		emplAndProjEntity.setProjectEntity(projectEntity);
 		emplAndProjEntity.setDateFrom(dateFrom);
 		emplAndProjEntity.setJobPositionEntity(jobPositionEntity);
 		emplAndProjEntity.setSalary(salary);
@@ -59,17 +62,32 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public void removeEmployeeFromProject(int idProject, int idEmployee, LocalDate dateTo) throws InvalidInputException {
+	public void removeEmployeeFromProject(int idProject, int idEmployee, Date dateTo) throws InvalidInputException {
 		EmployeeAndProjectEntity emloyeeAndProjectEntity = projectEmployeeDao.findActiveEmployeeByProjectIdAndEmployeeId(idProject, idEmployee);
 		if (emloyeeAndProjectEntity == null) {
 			throw new InvalidInputException();
 		}
-		if (dateTo.compareTo(emloyeeAndProjectEntity.getDateTo()) < 0) {
+		if (dateTo.compareTo(emloyeeAndProjectEntity.getDateFrom()) < 0) {
 			throw new InvalidInputException();
-		}
+		}else {
 		emloyeeAndProjectEntity.setDateTo(dateTo);
+		}
 		
-		
+	}
+
+	@Override
+	public List<EmployeeAndProjectEntity> findEmployeeWorkingLongerThan(int numberOfMonths) {
+		return projectEmployeeDao.findEmployeeWorkingLongerThan(numberOfMonths);
+	}
+
+	@Override
+	public List<EmployeeAndProjectEntity> findActiveEmployeeByProjectId(int idProject) {
+		return projectEmployeeDao.findActiveEmployeeByProjectId(idProject);
+	}
+
+	@Override
+	public List<ProjectEntity> findAllProjects() {
+		return projectDao.findAll();
 	}
 
 }

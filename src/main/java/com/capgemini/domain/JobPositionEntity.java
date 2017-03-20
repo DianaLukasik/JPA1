@@ -2,6 +2,7 @@ package com.capgemini.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import org.dom4j.tree.AbstractEntity;
 
 @Entity
+//@EntityListeners(TimeListener.class)
 @Table(name = "job_position")
 public class JobPositionEntity extends AbstractEntity {
 

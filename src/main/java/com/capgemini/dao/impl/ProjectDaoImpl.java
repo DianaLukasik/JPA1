@@ -1,11 +1,8 @@
 package com.capgemini.dao.impl;
 
 import java.util.List;
-
 import javax.persistence.TypedQuery;
-
 import org.springframework.stereotype.Repository;
-
 import com.capgemini.dao.ProjectDao;
 import com.capgemini.domain.ProjectEntity;
 

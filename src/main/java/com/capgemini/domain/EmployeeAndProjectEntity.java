@@ -1,21 +1,22 @@
 package com.capgemini.domain;
 
 
-
-import java.time.LocalDate;
-import java.util.Date;
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
 @Entity
+//@EntityListeners(TimeListener.class)
 @Table(name = "employee_and_project")
 public class EmployeeAndProjectEntity extends AbstractEntity{
 
@@ -37,10 +38,10 @@ public class EmployeeAndProjectEntity extends AbstractEntity{
 	private JobPositionEntity jobPositionEntity;
 
 	@Column(name = "date_from")
-	private LocalDate dateFrom;
+	private Date dateFrom;
 
 	@Column(name = "date_to")
-	private LocalDate dateTo;
+	private Date dateTo;
 
 	@Column
 	private double salary;
@@ -85,19 +86,19 @@ public class EmployeeAndProjectEntity extends AbstractEntity{
 		this.jobPositionEntity = jobPositionEntity;
 	}
 
-	public LocalDate getDateFrom() {
+	public Date getDateFrom() {
 		return dateFrom;
 	}
 
-	public void setDateFrom(LocalDate dateFrom) {
+	public void setDateFrom(Date dateFrom) {
 		this.dateFrom = dateFrom;
 	}
 
-	public LocalDate getDateTo() {
+	public Date getDateTo() {
 		return dateTo;
 	}
 
-	public void setDateTo(LocalDate dateTo) {
+	public void setDateTo(Date dateTo) {
 		this.dateTo = dateTo;
 	}
 

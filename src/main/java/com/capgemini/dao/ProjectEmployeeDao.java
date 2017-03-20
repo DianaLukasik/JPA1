@@ -3,13 +3,15 @@ package com.capgemini.dao;
 import java.util.List;
 
 import com.capgemini.domain.EmployeeAndProjectEntity;
-import com.capgemini.domain.ProjectEntity;
 
+public interface ProjectEmployeeDao extends Dao<EmployeeAndProjectEntity, Integer> {
 
-public interface ProjectEmployeeDao extends Dao<EmployeeAndProjectEntity, Integer>{
+	List<EmployeeAndProjectEntity> findActiveEmployeeByProjectId(int idProject);
 
-	List<EmployeeAndProjectEntity> findActiveEmployeeByProjectId (int idProject);
 	EmployeeAndProjectEntity findActiveEmployeeByProjectIdAndEmployeeId(int idProject, int idEmployee);
-	
-//	List<EmployeeAndProjectEntity> findEmployeeWorkingLongerThan (int numberOfMonths);
+
+	List<EmployeeAndProjectEntity> findProjectByEmployeeId(int idEmployee);
+
+	List<EmployeeAndProjectEntity> findEmployeeWorkingLongerThan (int
+	 numberOfMonths);
 }
