@@ -55,7 +55,7 @@ insert into job_position (job_position_name) values ('DEV');
 INSERT INTO projects (project_name, id_project_type, menager_id) VALUES ('First Project', 1, 6), ('Second Project', 2, 5), ('Third Project', 1, 4), ('Fourth Project', 2, 3), ('Fifth Project', 2, 1);
 
 -- EMPLOYEEandPROJECT
-insert into employee_and_project (date_from, date_to, salary, id_employee, id_project, id_job_position) values ('2016-07-01', '2016-12-17', 200, 2, 3, 1);
+insert into employee_and_project (date_from, date_to, salary, id_employee, id_project, id_job_position) values ('2016-07-01', null, 200, 2, 3, 1);
 insert into employee_and_project (date_from, date_to, salary, id_employee, id_project, id_job_position) values ('2011-07-01', null, 500, 13, 3, 4);
 insert into employee_and_project (date_from, date_to, salary, id_employee, id_project, id_job_position) values ('2014-01-01', '2016-05-14', 100, 9, 5, 2);
 insert into employee_and_project (date_from, date_to, salary, id_employee, id_project, id_job_position) values ('2016-03-03', null, 200, 5, 2, 3);
@@ -65,7 +65,7 @@ insert into employee_and_project (date_from, date_to, salary, id_employee, id_pr
 insert into employee_and_project (date_from, date_to, salary, id_employee, id_project, id_job_position) values ('2015-02-06', '2017-01-13', 200, 3, 2, 3);
 insert into employee_and_project (date_from, date_to, salary, id_employee, id_project, id_job_position) values ('2012-07-01', '2014-07-18', 170, 10, 2, 4);
 insert into employee_and_project (date_from, date_to, salary, id_employee, id_project, id_job_position) values ('2010-09-01', '2015-01-11', 180, 9, 3, 2);
-insert into employee_and_project (date_from, date_to, salary, id_employee, id_project, id_job_position) values ('2013-03-05', null, 100, 21, 2, 2);
+insert into employee_and_project (date_from, date_to, salary, id_employee, id_project, id_job_position) values ('2013-03-05', null, 100, 1, 2, 2);
 insert into employee_and_project (date_from, date_to, salary, id_employee, id_project, id_job_position) values ('2016-11-01', '2016-12-15', 190, 13, 1, 2);
 insert into employee_and_project (date_from, date_to, salary, id_employee, id_project, id_job_position) values ('2016-07-01', null, 200, 5, 1, 3);
 insert into employee_and_project (date_from, date_to, salary, id_employee, id_project, id_job_position) values ('2015-03-01', '2016-10-29', 190, 4, 1, 4);

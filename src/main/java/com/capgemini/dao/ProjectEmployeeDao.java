@@ -14,4 +14,5 @@ public interface ProjectEmployeeDao extends Dao<EmployeeAndProjectEntity, Intege
 
 	List<EmployeeAndProjectEntity> findEmployeeWorkingLongerThan (int
 	 numberOfMonths);
+	List<EmployeeAndProjectEntity> findEmployeeAndProjectByProjectId(int idProject);
 }

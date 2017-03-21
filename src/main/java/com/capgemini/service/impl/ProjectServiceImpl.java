@@ -1,17 +1,14 @@
 package com.capgemini.service.impl;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
-
 import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.capgemini.dao.ProjectDao;
 import com.capgemini.dao.ProjectEmployeeDao;
 import com.capgemini.domain.EmployeeAndProjectEntity;
+import com.capgemini.domain.EmployeeEntity;
 import com.capgemini.domain.JobPositionEntity;
 import com.capgemini.domain.ProjectEntity;
 import com.capgemini.exceptions.InvalidInputException;
@@ -23,7 +20,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Autowired
 	ProjectDao projectDao;
-	
+
 	@Autowired
 	ProjectEmployeeDao projectEmployeeDao;
 
@@ -34,13 +31,19 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public void deleteProject(int idProject) throws InvalidInputException {
-		List<ProjectEntity> projectList = projectDao.findProjectById(idProject);
-		if (projectList == null) {
-			throw new InvalidInputException("Project with given ID do not exist!");
-		} else {
+	public void deleteProject(int idProject) {
+		List<EmployeeAndProjectEntity> projectList = projectEmployeeDao.findActiveEmployeeByProjectId(idProject);
+		if (projectList != null) {
+			deleteAllEmployeeAssignments(projectList);
+		}
 		projectDao.delete(projectDao.findOne(idProject));
 	}
+
+	private void deleteAllEmployeeAssignments(List<EmployeeAndProjectEntity> projectList) {
+		for (EmployeeAndProjectEntity ep : projectList) {
+			ep.setProjectEntity(null);
+		}
+
 	}
 
 	@Override
@@ -48,31 +51,35 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectDao.update(project);
 	}
 
-	@Override
-	public EmployeeAndProjectEntity addEmployeeToProject(ProjectEntity projectEntity, int idEmployee, LocalDate dateFrom,
-			JobPositionEntity jobPositionEntity, double salary) {
-		EmployeeAndProjectEntity emplAndProjEntity = new EmployeeAndProjectEntity();
-		emplAndProjEntity.setIdProjectEmployee(idEmployee);
-		emplAndProjEntity.setProjectEntity(projectEntity);
-		emplAndProjEntity.setDateFrom(dateFrom);
-		emplAndProjEntity.setJobPositionEntity(jobPositionEntity);
-		emplAndProjEntity.setSalary(salary);
-		return projectEmployeeDao.save(emplAndProjEntity);
+	// @Override
+	public EmployeeAndProjectEntity addEmployeeToProject(EmployeeEntity employeeEntity, ProjectEntity projectEntity,
+			int idEmployee, LocalDate dateFrom, JobPositionEntity jobPositionEntity, double salary) {
+		EmployeeAndProjectEntity employeeAndProjectEntity = new EmployeeAndProjectEntity();
+		employeeAndProjectEntity.setEmployeeEntity(employeeEntity);
+		employeeAndProjectEntity.setProjectEntity(projectEntity);
+		employeeAndProjectEntity.setDateFrom(dateFrom);
+		employeeAndProjectEntity.setJobPositionEntity(jobPositionEntity);
+		employeeAndProjectEntity.setSalary(salary);
+		return projectEmployeeDao.save(employeeAndProjectEntity);
 
 	}
 
+
 	@Override
-	public void removeEmployeeFromProject(int idProject, int idEmployee, LocalDate dateTo) throws InvalidInputException {
-		EmployeeAndProjectEntity emloyeeAndProjectEntity = projectEmployeeDao.findActiveEmployeeByProjectIdAndEmployeeId(idProject, idEmployee);
+	public void removeEmployeeFromProject(int idProject, int idEmployee, LocalDate dateTo)
+			throws InvalidInputException {
+		EmployeeAndProjectEntity emloyeeAndProjectEntity = projectEmployeeDao
+				.findActiveEmployeeByProjectIdAndEmployeeId(idProject, idEmployee);
 		if (emloyeeAndProjectEntity == null) {
 			throw new InvalidInputException("There is no assigment of employee to any project!");
 		}
 		if (dateTo.compareTo(emloyeeAndProjectEntity.getDateFrom()) < 0) {
-			throw new InvalidInputException("Date when employee finished project can not be earlier than date when employee started!");
-		}else {
-		emloyeeAndProjectEntity.setDateTo(dateTo);
+			throw new InvalidInputException(
+					"Date when employee finished project can not be earlier than date when employee started!");
+		} else {
+			emloyeeAndProjectEntity.setDateTo(dateTo);
 		}
-		
+
 	}
 
 	@Override
@@ -98,6 +105,22 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public List<EmployeeAndProjectEntity> findProjectsAssignedToEmployee(int idEmployee) {
 		return projectEmployeeDao.findProjectByEmployeeId(idEmployee);
+	}
+
+	@Override
+	public ProjectEntity findProjectByName(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ProjectEntity getOneProject(int idProject) {
+		return projectDao.findOne(idProject);
+	}
+
+	@Override
+	public EmployeeAndProjectEntity findActiveEmployeeByProjectIdAndEmployeeId(int idProject, int idEmployee) {
+		return projectEmployeeDao.findActiveEmployeeByProjectIdAndEmployeeId(idProject, idEmployee);
 	}
 
 }

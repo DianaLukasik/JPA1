@@ -20,6 +20,10 @@ public abstract class AbstractDao<T, K extends Serializable> implements Dao<T, K
     protected EntityManager entityManager;
 
     private Class<T> domainClass;
+    
+    public void flush(){
+        entityManager.flush();
+     } 
 
     @Override
     public T save(T entity) {

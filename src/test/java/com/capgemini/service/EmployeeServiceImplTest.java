@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.capgemini.dao.EmployeeDao;
 import com.capgemini.domain.Contact;
 import com.capgemini.domain.DepartmentEntity;
 import com.capgemini.domain.EmployeeEntity;
@@ -28,6 +29,9 @@ public class EmployeeServiceImplTest {
 
 	@Autowired
 	EmployeeService employeeService;
+	
+	@Autowired
+	EmployeeDao dao;
 
 	@Test
 	public void shouldAddEmployee() throws EmployeeNotFoundException, InvalidInputException {
@@ -66,7 +70,7 @@ public class EmployeeServiceImplTest {
 		// when
 		employeeService.deleteEmployee(idEmployee);
 		// then
-		assertEquals(1, employeeService.findAllEmployee().size());
+		assertEquals(13, employeeService.findAllEmployee().size());
 	}
 
 	@Test(expected = EmployeeNotFoundException.class)
@@ -84,35 +88,19 @@ public class EmployeeServiceImplTest {
 		// then
 	}
 
-	// @Test
-	// public void shouldDeleteAllProjectsAssignedToEmployee() {
-	// // given
-	// // when
-	// // then
-	// }
+
 
 	@Test
 	public void shouldUpdateEmployee() {
 		// given
-		EmployeeEntity testEmployee = new EmployeeEntity();
-		int idEmployee = 1;
-		testEmployee.setIdEmployee(idEmployee);
-		Contact contact = new Contact();
-		contact.setEmail("newmail@mailcom");
-		contact.setPhoneHome(717897654);
-		contact.setPhoneMobile(777888999);
-		testEmployee.setPesel("87102366543");
-		testEmployee.setName(employeeService.findEmployeeById(idEmployee).getName());
-		testEmployee.setSurname(employeeService.findEmployeeById(idEmployee).getSurname());
-		testEmployee.setDepartmentEntity(employeeService.findEmployeeById(idEmployee).getDepartmentEntity());
-		testEmployee.setBirthDate(employeeService.findEmployeeById(idEmployee).getBirthDate());
-		testEmployee.setContact(contact);
+		final EmployeeEntity testEmployee = employeeService.findEmployeeById(1);
+		testEmployee.setName("Zmieniony");
 
-		// when
+		// when		
 		employeeService.updateEmployee(testEmployee);
 
 		// then
-		assertEquals("newmail@mailcom", testEmployee.getContact().getEmail());
+		assertEquals("Zmieniony", testEmployee.getName());
 	}
 
 	@Test
@@ -190,5 +178,22 @@ public class EmployeeServiceImplTest {
 
 		// then
 
+	}
+	
+	
+	
+	@Test
+	public void shouldUpdateEmployeeOptimisticLockCheck() {
+		// given
+		final EmployeeEntity testEmployee = employeeService.findEmployeeById(1);
+		testEmployee.setName("Zmieniony");
+
+		// when		
+		employeeService.updateEmployee(testEmployee);
+		dao.flush();
+
+		// then
+		assertEquals("Zmieniony", testEmployee.getName());
+		assertEquals(1,testEmployee.getModificationCounter());
 	}
 }

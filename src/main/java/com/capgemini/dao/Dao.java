@@ -5,23 +5,25 @@ import java.util.List;
 
 public interface Dao<T, K extends Serializable> {
 
-    T save(T entity);
+	T save(T entity);
 
-    T getOne(K id);
+	void flush();
 
-    T findOne(K id);
+	T getOne(K id);
 
-    List<T> findAll();
+	T findOne(K id);
 
-    T update(T entity);
+	List<T> findAll();
 
-    void delete(T entity);
+	T update(T entity);
 
-    void delete(K id);
+	void delete(T entity);
 
-    void deleteAll();
+	void delete(K id);
 
-    long count();
+	void deleteAll();
 
-    boolean exists(K id);
+	long count();
+
+	boolean exists(K id);
 }

@@ -70,7 +70,7 @@ public class EmployeeEntity {
 
 	@Version
 	@Column(name = "version", columnDefinition = "int default 0")
-	private int version = 0;
+	protected int modificationCounter;
 
 	public int getIdEmployee() {
 		return idEmployee;
@@ -128,12 +128,14 @@ public class EmployeeEntity {
 		this.contact = contact;
 	}
 
-	// public int getVersion() {
-	// return version;
-	// }
-	//
-	// public void setVersion(int version) {
-	// this.version = version;
-	// }
+	public int getModificationCounter() {
+		return modificationCounter;
+	}
+
+	public void setModificationCounter(int modificationCounter) {
+		this.modificationCounter = modificationCounter;
+	}
+
+
 
 }

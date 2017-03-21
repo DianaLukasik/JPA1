@@ -38,7 +38,7 @@ public class ProjectTypeEntity extends AbstractEntity {
 	private Date modifyDate;
 	@Version
 	@Column(name = "version", columnDefinition = "int default 0")
-	private int version = 0;
+	protected int modificationCounter;
 	
 	public int getIdProjectType() {
 		return idProjectType;
@@ -63,6 +63,14 @@ public class ProjectTypeEntity extends AbstractEntity {
 		super();
 		this.idProjectType = idProjectType;
 		this.name = name;
+	}
+
+	public int getModificationCounter() {
+		return modificationCounter;
+	}
+
+	public void setModificationCounter(int modificationCounter) {
+		this.modificationCounter = modificationCounter;
 	}
 
 }

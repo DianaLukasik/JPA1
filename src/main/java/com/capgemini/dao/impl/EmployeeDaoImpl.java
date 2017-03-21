@@ -1,9 +1,12 @@
 package com.capgemini.dao.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.TypedQuery;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.capgemini.dao.EmployeeDao;
@@ -13,6 +16,19 @@ import com.capgemini.domain.EmployeeEntity;
 
 @Repository
 public class EmployeeDaoImpl extends AbstractDao<EmployeeEntity, Integer> implements EmployeeDao {
+	
+	@Autowired
+	private JdbcTemplate jdbc;
+	
+	
+
+	public JdbcTemplate getJdbc() {
+		return jdbc;
+	}
+
+	public void setJdbc(JdbcTemplate jdbc) {
+		this.jdbc = jdbc;
+	}
 
 	@Override
 	public List<EmployeeEntity> findByNameAndSurname(String name, String surname) {
@@ -40,18 +56,15 @@ public class EmployeeDaoImpl extends AbstractDao<EmployeeEntity, Integer> implem
 
 	@Override
 	public List<EmployeeEntity> findByDepartmentId(int idDepartment) {
-		TypedQuery<EmployeeEntity> query = entityManager.createQuery("select employee from EmployeeEntity employee where employee.employeeEntity.idDepartment = :idDepertment", EmployeeEntity.class);
+		TypedQuery<EmployeeEntity> query = entityManager.createQuery("select ep from EmployeeAndprojectEntity ep where ep.employeeEntity.idDepartment = :idDepertment", EmployeeEntity.class);
 		query.setParameter("id_department", idDepartment);
 		return query.getResultList();
 	}
 	
 	
 	
-	
-//////////////////////	
-	
 	public List<EmployeeEntity> findActiveEmployeeByProjectId(int idProject) {
-		TypedQuery<EmployeeEntity> query = entityManager.createQuery("select employee from EmployeeEntity e  JOIN e.idEmployee ep where (ep.end_date is null and ep.idProject=:idProject)", EmployeeEntity.class);
+		TypedQuery<EmployeeEntity> query = entityManager.createQuery("select  employee from ProjectDataEntity project_data where id_project = :idProject and end_date = null )", EmployeeEntity.class);
 		query.setParameter("idProject", idProject);
 		return query.getResultList();
 	}
@@ -61,5 +74,11 @@ public class EmployeeDaoImpl extends AbstractDao<EmployeeEntity, Integer> implem
 		TypedQuery<EmployeeAndProjectEntity> query = entityManager.createQuery("select  ",EmployeeAndProjectEntity.class);
 			query.setParameter("numberOfMonths", numberOfMonths);
 		return null;
+	}
+	
+	////////////////zad h 
+	public List<EmployeeEntity> findH1 (LocalDate dateFrom, LocalDate dateTo, int jobPositionId) {
+		return null;
+		
 	}
 }

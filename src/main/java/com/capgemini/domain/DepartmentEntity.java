@@ -45,7 +45,15 @@ public class DepartmentEntity {
 	
 	@Version
 	@Column(name = "version", columnDefinition = "int default 0")
-	private int version = 0;
+	protected int modificationCounter; 
+
+	public int getModificationCounter() {
+		return modificationCounter;
+	}
+
+	public void setModificationCounter(int modificationCounter) {
+		this.modificationCounter = modificationCounter;
+	}
 
 	public int getIdDepartment() {
 		return idDepartment;

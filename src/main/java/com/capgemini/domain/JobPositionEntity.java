@@ -42,7 +42,7 @@ public class JobPositionEntity {
 	private Date modifyDate;
 	@Version
 	@Column(name = "version", columnDefinition = "int default 0")
-	private int version = 0;
+	protected int modificationCounter;
 	
 	public int getIdJobposition() {
 		return idJobposition;
@@ -55,6 +55,12 @@ public class JobPositionEntity {
 	}
 	public void setJobPositionName(String jobPositionName) {
 		this.jobPositionName = jobPositionName;
+	}
+	public int getModificationCounter() {
+		return modificationCounter;
+	}
+	public void setModificationCounter(int modificationCounter) {
+		this.modificationCounter = modificationCounter;
 	}
 
 

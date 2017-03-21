@@ -72,7 +72,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 		List<EmployeeAndProjectEntity> listOfAssignedprojects=projectEmployeeDao.findProjectByEmployeeId(idEmployee);
 		for (EmployeeAndProjectEntity ap : listOfAssignedprojects) {
 			ap.setEmployeeEntity(null);
-	//		ap.setProjectEntity(null);
 		}
 	}
 
@@ -163,5 +162,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public EmployeeEntity findEmployeeById(int idEmployee) {
 		return employeeDao.findOne(idEmployee);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

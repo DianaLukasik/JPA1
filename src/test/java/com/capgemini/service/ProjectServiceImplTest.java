@@ -3,6 +3,7 @@ package com.capgemini.service;
 import static org.junit.Assert.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -46,63 +47,60 @@ public class ProjectServiceImplTest {
 		// when
 		projectService.addProject(testProject);
 		// then
-		assertEquals(6, projectService.findAllProjects().size()); // DODAC W
-																	// INSETRACH
-																	// 5
-																	// PROJEKTOW
+		assertEquals(11, projectService.findAllProjects().size());
 	}
 
 	@Test
 	public void shouldUpdateProject() {
 		// given
-		ProjectEntity testProject = new ProjectEntity();
-		int testId = testProject.getIdProject();
+		final ProjectEntity testProject = projectService.getOneProject(1);
 
 		// when
 		testProject.setProjectName("Zmieniona nazwa");
+		projectService.updateProject(testProject);
 
 		// then
-		assertEquals("Zmieniona nazwa", projectService.findProjectById(testId));
+		assertEquals("Zmieniona nazwa", testProject.getProjectName());
 	}
 
 	@Test
 	public void shouldDeleteProject() throws InvalidInputException {
 		// given
-		int idProject = 1;
+		int idProject = 4;
 		// when
 		projectService.deleteProject(idProject);
 		// then
-		assertEquals(3, projectService.findAllProjects().size());
+		assertEquals(4, projectService.findAllProjects().size());
 	}
 
 	@Test
 	public void shouldAddEmployeeToProject() {
 		// given
-		
-		int idEmployee =1;
-		int idProject=1;
-		double testSalary=100;
-		EmployeeEntity testEmployee = employeeService.findEmployeeById(idEmployee);
-		ProjectEntity testProject = projectService.findProjectById(idProject);
-	LocalDate dateFrom = LocalDate.of(2017, 01, 30);
-		
+
+		int idEmployee = 1;
+		int idProject = 1;
+		double testSalary = 100;
+		EmployeeEntity employee = employeeService.findEmployeeById(idEmployee);
+		ProjectEntity projectEntity=projectService.findProjectById(idProject);
+		LocalDate dateFrom = LocalDate.of(2017, 01, 30);	
+
 		// when
-		EmployeeAndProjectEntity testEmpProj = projectService.addEmployeeToProject(testProject, idEmployee, dateFrom, null, testSalary);
-		
+		EmployeeAndProjectEntity testEmpProj = projectService.addEmployeeToProject(employee, projectEntity, idEmployee, dateFrom, null, testSalary);
+
 		// then
-		assertEquals(testEmployee,testEmpProj.getEmployeeEntity());
+		assertEquals(1, testEmpProj.getEmployeeEntity().getIdEmployee());
 	}
 
 	@Test
 	public void shouldRemoveEmployeefromProject() throws InvalidInputException {
 		// given
-		int idEmployee = 1;
-		int idProject = 1;
-		LocalDate dateTo = LocalDate.of(2017, 02, 30);
+		int idEmployee = 2;
+		int idProject = 3;
+		LocalDate dateTo = LocalDate.of(2017, 02, 10);
 		// when
 		projectService.removeEmployeeFromProject(idProject, idEmployee, dateTo);
 		// then
-		assertEquals(dateTo,projectService.findProjectsAssignedToEmployee(idEmployee).get(0).getDateTo());
+		assertEquals(dateTo, projectService.findProjectsAssignedToEmployee(idEmployee).get(0).getDateTo());
 	}
 
 	@Test(expected = InvalidInputException.class)
@@ -110,21 +108,12 @@ public class ProjectServiceImplTest {
 		// given
 		int idEmployee = 1;
 		int idProject = 1;
-		LocalDate dateTo = LocalDate.of(1999, 02, 30);
+		final LocalDate dateTo = LocalDate.of(1999, 02, 10);
 		// when
 		projectService.removeEmployeeFromProject(idProject, idEmployee, dateTo);
+		//then
+		//assertEquals(dateTo,projectService.findActiveEmployeeByProjectIdAndEmployeeId(idProject, idEmployee).getDateTo());
 	}
-
-	@Test(expected = InvalidInputException.class)
-	public void shouldNotRemoveEmployeefromProjectIfProjectIdIsInvalid() throws InvalidInputException {
-		// given
-		int idEmployee = 1;
-		int idProject = 999;
-		LocalDate dateTo = LocalDate.of(1999, 02, 30);
-		// when
-		projectService.removeEmployeeFromProject(idProject, idEmployee, dateTo);
-	}
-
 
 	@Test
 	public void shouldFindEmployeesWorkingLongerThanXMonths() {
@@ -136,15 +125,14 @@ public class ProjectServiceImplTest {
 	@Test
 	public void shouldFindActiveEmployeeByProjectId() {
 		// given
+		int idProject=1;
 		// when
-		// then
-	}
+		List<EmployeeAndProjectEntity> employee = projectService.findActiveEmployeeByProjectId(idProject);
 
-	@Test
-	public void shouldDeleteAllProjectsAssignedToEmployee() {
-		// given
-		// when
 		// then
+		assertEquals("Avery", employee.get(0).getEmployeeEntity().getName());
+		
 	}
+	
 
 }

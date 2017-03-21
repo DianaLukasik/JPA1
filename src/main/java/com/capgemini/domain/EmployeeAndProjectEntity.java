@@ -65,7 +65,7 @@ public class EmployeeAndProjectEntity{
 	
 	@Version
 	@Column(name = "version", columnDefinition = "int default 0")
-	private int version = 0;
+	protected int modificationCounter;
 
 
 
@@ -126,11 +126,13 @@ public class EmployeeAndProjectEntity{
 	public void setSalary(double salary) {
 		this.salary = salary;
 	}
-	public int getVersion() {
-		return version;
+
+	public int getModificationCounter() {
+		return modificationCounter;
 	}
 
-	public void setVersion(int version) {
-		this.version = version;
+	public void setModificationCounter(int modificationCounter) {
+		this.modificationCounter = modificationCounter;
 	}
+
 }
