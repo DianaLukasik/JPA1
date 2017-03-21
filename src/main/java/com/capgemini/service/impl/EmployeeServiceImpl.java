@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.stereotype.Service;
 
 import com.capgemini.dao.EmployeeDao;
@@ -38,7 +39,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public void addEmployee(EmployeeEntity employee) throws InvalidInputException {
 		EmployeeEntity employeeEntity = employeeDao.save(employee);
 		if (employeeEntity == null) {
-			throw new InvalidInputException();
+			throw new InvalidInputException(""); //DODAC MESSAGE
 		}
 
 	}
@@ -51,19 +52,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public void deleteEmployee(int idEmployee) throws EmployeeNotFoundException, InvalidInputException {
-		checkIfIsManager(idEmployee);
+		validateIfIsManager(idEmployee);
 		deleteAllProjectsAssignedToEmployee(idEmployee);
 		try {
 			employeeDao.delete(idEmployee);
-		} catch (NullPointerException e) {
-			throw new EmployeeNotFoundException(); //message dod
+		} catch (JpaObjectRetrievalFailureException e) {
+			throw new EmployeeNotFoundException("Employee with given ID do not exist!"); 
 		}
 	}
 
-	private void checkIfIsManager(int idEmployee) throws InvalidInputException{
+	private void validateIfIsManager(int idEmployee) throws InvalidInputException{
 		List<ProjectEntity> listOfAssignedprojects=projectDao.findProjectByManagerId(idEmployee);
 		if (listOfAssignedprojects!= null) {
-			throw new InvalidInputException(); //exc message dodac
+			throw new InvalidInputException("Employee is a menager in some project, you should update project before delete");
 	}
 	}
 
@@ -71,7 +72,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		List<EmployeeAndProjectEntity> listOfAssignedprojects=projectEmployeeDao.findProjectByEmployeeId(idEmployee);
 		for (EmployeeAndProjectEntity ap : listOfAssignedprojects) {
 			ap.setEmployeeEntity(null);
-			ap.setProjectEntity(null);
+	//		ap.setProjectEntity(null);
 		}
 	}
 
@@ -95,7 +96,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			employeeEntity = employeeDao.findOne(idEmployee);
 			employeeEntity.setDepartmentEntity(department);
 		} catch (NullPointerException e) {
-			throw new EmployeeNotFoundException();
+			throw new EmployeeNotFoundException("Employee with given ID do not exist!");
 		}
 
 		return employeeDao.update(employeeEntity);
@@ -105,7 +106,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public List<EmployeeEntity> findEmployeeByName(String name) throws EmployeeNotFoundException {
 		List<EmployeeEntity> searchList = employeeDao.findByName(name);
 		if (searchList == null) {
-			throw new EmployeeNotFoundException();
+			throw new EmployeeNotFoundException("Employee with given surname do not exist!");
 		} else {
 			return searchList;
 		}
@@ -115,7 +116,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public List<EmployeeEntity> findEmployeeBySurname(String surname) throws EmployeeNotFoundException {
 		List<EmployeeEntity> searchList = employeeDao.findBySurname(surname);
 		if (searchList == null) {
-			throw new EmployeeNotFoundException();
+			throw new EmployeeNotFoundException("There is no employee on the list!");
 		} else {
 			return searchList;
 		}
@@ -124,8 +125,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public List<EmployeeEntity> findByNameAndSurname(String name, String surname) throws EmployeeNotFoundException {
 		List<EmployeeEntity> searchList = employeeDao.findByNameAndSurname(name, surname);
-		if (searchList == null) {
-			throw new EmployeeNotFoundException();
+		if (searchList.isEmpty()) {
+			throw new EmployeeNotFoundException("Employee with given name and surname do not exist!");
 		} else {
 
 			return searchList;
@@ -136,7 +137,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public List<EmployeeEntity> findByDepartmentId(int idDepartment) throws EmployeeNotFoundException {
 		List<EmployeeEntity> searchList = employeeDao.findByDepartmentId(idDepartment);
 		if (searchList == null) {
-			throw new EmployeeNotFoundException();
+			throw new EmployeeNotFoundException("Department with given ID do not exist!");
 		} else {
 			return searchList;
 		}
@@ -146,7 +147,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public List<EmployeeEntity> findAllEmployee() throws EmployeeNotFoundException {
 		List<EmployeeEntity> searchList = employeeDao.findAll();
 		if (searchList == null) {
-			throw new EmployeeNotFoundException();
+			throw new EmployeeNotFoundException("There is no employee on the list!");
 		} else {
 			return searchList;
 		}

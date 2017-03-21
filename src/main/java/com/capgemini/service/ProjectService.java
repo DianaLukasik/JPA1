@@ -1,6 +1,7 @@
 package com.capgemini.service;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.capgemini.domain.EmployeeAndProjectEntity;
@@ -17,15 +18,19 @@ public interface ProjectService {
 
 	ProjectEntity updateProject(ProjectEntity project);
 
-	EmployeeAndProjectEntity addEmployeeToProject(ProjectEntity projectEntity, int idEmployee, Date dateFrom,
+	EmployeeAndProjectEntity addEmployeeToProject(ProjectEntity projectEntity, int idEmployee, LocalDate dateFrom,
 			JobPositionEntity jobPositionEntity, double salary);
 
-	void removeEmployeeFromProject(int idproject, int idEmployee, Date dateTo) throws InvalidInputException;
+	void removeEmployeeFromProject(int idproject, int idEmployee, LocalDate dateTo) throws InvalidInputException;
 
 	List<EmployeeAndProjectEntity> findEmployeeWorkingLongerThan(int numberOfMonths);
 
 	List<EmployeeAndProjectEntity> findActiveEmployeeByProjectId(int idProject);
 	
 	List<ProjectEntity> findAllProjects ();
+
+	ProjectEntity findProjectById(int testId);
+
+	List<EmployeeAndProjectEntity> findProjectsAssignedToEmployee(int idEmployee);
 
 }

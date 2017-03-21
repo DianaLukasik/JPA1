@@ -19,7 +19,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-//@EntityListeners(TimeListener.class)
 @Table(name = "job_position")
 public class JobPositionEntity {
 

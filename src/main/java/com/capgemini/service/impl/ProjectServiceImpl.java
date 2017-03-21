@@ -37,7 +37,7 @@ public class ProjectServiceImpl implements ProjectService {
 	public void deleteProject(int idProject) throws InvalidInputException {
 		List<ProjectEntity> projectList = projectDao.findProjectById(idProject);
 		if (projectList == null) {
-			throw new InvalidInputException();
+			throw new InvalidInputException("Project with given ID do not exist!");
 		} else {
 		projectDao.delete(projectDao.findOne(idProject));
 	}
@@ -49,7 +49,7 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public EmployeeAndProjectEntity addEmployeeToProject(ProjectEntity projectEntity, int idEmployee, Date dateFrom,
+	public EmployeeAndProjectEntity addEmployeeToProject(ProjectEntity projectEntity, int idEmployee, LocalDate dateFrom,
 			JobPositionEntity jobPositionEntity, double salary) {
 		EmployeeAndProjectEntity emplAndProjEntity = new EmployeeAndProjectEntity();
 		emplAndProjEntity.setIdProjectEmployee(idEmployee);
@@ -62,13 +62,13 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public void removeEmployeeFromProject(int idProject, int idEmployee, Date dateTo) throws InvalidInputException {
+	public void removeEmployeeFromProject(int idProject, int idEmployee, LocalDate dateTo) throws InvalidInputException {
 		EmployeeAndProjectEntity emloyeeAndProjectEntity = projectEmployeeDao.findActiveEmployeeByProjectIdAndEmployeeId(idProject, idEmployee);
 		if (emloyeeAndProjectEntity == null) {
-			throw new InvalidInputException();
+			throw new InvalidInputException("There is no assigment of employee to any project!");
 		}
 		if (dateTo.compareTo(emloyeeAndProjectEntity.getDateFrom()) < 0) {
-			throw new InvalidInputException();
+			throw new InvalidInputException("Date when employee finished project can not be earlier than date when employee started!");
 		}else {
 		emloyeeAndProjectEntity.setDateTo(dateTo);
 		}
@@ -88,6 +88,16 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public List<ProjectEntity> findAllProjects() {
 		return projectDao.findAll();
+	}
+
+	@Override
+	public ProjectEntity findProjectById(int testId) {
+		return projectDao.findOne(testId);
+	}
+
+	@Override
+	public List<EmployeeAndProjectEntity> findProjectsAssignedToEmployee(int idEmployee) {
+		return projectEmployeeDao.findProjectByEmployeeId(idEmployee);
 	}
 
 }

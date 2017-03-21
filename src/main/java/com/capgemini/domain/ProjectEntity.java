@@ -21,7 +21,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-//@EntityListeners(TimeListener.class)
 @Table(name = "projects")
 public class ProjectEntity {
 
@@ -31,7 +30,7 @@ public class ProjectEntity {
 	@Column(name = "id_project")
 	private int idProject;
 	@Column(name = "project_name", nullable = false)
-	private int projectName;
+	private String projectName;
 	@OneToOne
 	@JoinColumn (name="menager_id", referencedColumnName="id_employee")
 	private EmployeeEntity employeeEntity;
@@ -59,11 +58,11 @@ public class ProjectEntity {
 		this.idProject = idProject;
 	}
 
-	public int getProjectName() {
+	public String getProjectName() {
 		return projectName;
 	}
 
-	public void setProjectName(int projectName) {
+	public void setProjectName(String projectName) {
 		this.projectName = projectName;
 	}
 

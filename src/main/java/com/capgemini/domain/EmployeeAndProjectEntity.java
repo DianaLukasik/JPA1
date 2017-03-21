@@ -3,6 +3,7 @@ package com.capgemini.domain;
 
 
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -23,7 +24,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-//@EntityListeners(TimeListener.class)
 @Table(name = "employee_and_project")
 public class EmployeeAndProjectEntity{
 
@@ -45,10 +45,10 @@ public class EmployeeAndProjectEntity{
 	private JobPositionEntity jobPositionEntity;
 
 	@Column(name = "date_from")
-	private Date dateFrom;
+	private LocalDate dateFrom;
 
 	@Column(name = "date_to")
-	private Date dateTo;
+	private LocalDate dateTo;
 
 	@Column
 	private double salary;
@@ -103,19 +103,19 @@ public class EmployeeAndProjectEntity{
 		this.jobPositionEntity = jobPositionEntity;
 	}
 
-	public Date getDateFrom() {
+	public LocalDate getDateFrom() {
 		return dateFrom;
 	}
 
-	public void setDateFrom(Date dateFrom) {
+	public void setDateFrom(LocalDate dateFrom) {
 		this.dateFrom = dateFrom;
 	}
 
-	public Date getDateTo() {
+	public LocalDate getDateTo() {
 		return dateTo;
 	}
 
-	public void setDateTo(Date dateTo) {
+	public void setDateTo(LocalDate dateTo) {
 		this.dateTo = dateTo;
 	}
 

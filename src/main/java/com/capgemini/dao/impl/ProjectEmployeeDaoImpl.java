@@ -24,7 +24,6 @@ public class ProjectEmployeeDaoImpl extends AbstractDao<EmployeeAndProjectEntity
 	}
 
 	
-	//camel case czy podloga??????????????
 	@Override
 	public EmployeeAndProjectEntity findActiveEmployeeByProjectIdAndEmployeeId(int idProject, int idEmployee) {
 		try {
@@ -60,21 +59,15 @@ public List<EmployeeAndProjectEntity> findProjectByEmployeeId(int idEmployee) {
 }
 
 
-@Override //UZUPELNIC SELECT!!!!!!!!
+@Override
 public List<EmployeeAndProjectEntity> findEmployeeWorkingLongerThan(int numberOfMonths) {
-	TypedQuery<EmployeeAndProjectEntity> query = entityManager.createQuery("select  ",EmployeeAndProjectEntity.class);
+	TypedQuery<EmployeeAndProjectEntity> query = entityManager.createQuery("select ep.employeeEntity.idEmployee FROM EmployeeAndProjectEntity ep where DATEDIFF(month,dateFrom,dateTo)>:numberOfMonths",EmployeeAndProjectEntity.class);
 	query.setParameter("numberOfMonths", numberOfMonths);
 	return null;
 }
 }
 
-//	@Override
-//	public List<EmployeeAndProjectEntity> findEmployeeWorkingLongerThan(int numberOfMonths) {
-//		TypedQuery<EmployeeAndProjectEntity> query = entityManager.createQuery
-//	("select ep FROM EmployeeAndProjectEntity",EmployeeAndProjectEntity.class);
-//			query.setParameter("numberOfMonths", numberOfMonths);
-//		return null;
-//	}
+
 
 	
  
